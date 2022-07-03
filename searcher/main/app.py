@@ -1,4 +1,4 @@
-﻿from flask import Flask
+﻿from flask import Flask, render_template
 
 
 def create_app() -> Flask:
@@ -6,16 +6,17 @@ def create_app() -> Flask:
 
     @app.route("/")
     @app.route("/index")
-    def index(message="index"):
-        return f"{message}"
+    def index(message="search"):
+        return render_template('index.tpl', message=message)
 
     @app.route("/result")
     def result():
-        return "result"
+        return render_template('result.tpl', message="your result")
 
     @app.errorhandler(404)
     def page404(_):
         return index("Previous page not found - 404. "
                      "But you can search another!")
+
 
     return app

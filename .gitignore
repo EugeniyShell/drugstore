@@ -140,3 +140,6 @@ cython_debug/
 
 # JetBrains stuff
 .idea/
+
+# hint
+подсказка.txt
