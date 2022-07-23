@@ -1,6 +1,6 @@
 ﻿from flask import Flask, render_template, request
 
-from main.grls_parser import grls_finder
+from main.grls_drugs_finder import GRLS_drugs_finder
 
 
 def create_app() -> Flask:
@@ -14,7 +14,8 @@ def create_app() -> Flask:
     @app.route("/result", methods=['GET'])
     def result():
         search = request.args.get('search')
-        search_list = grls_finder(search)
+        grls_search = GRLS_drugs_finder(search)
+        search_list = grls_search.find()
         if not len(search_list):
             return index("FOUND NOTHING! But you can search another!")
         return render_template('result.tpl', message=search,
