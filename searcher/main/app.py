@@ -11,15 +11,20 @@ def create_app() -> Flask:
     def index(message="search"):
         return render_template('index.tpl', message=message)
 
-    @app.route("/result", methods=['GET'])
-    def result():
+    @app.route("/variants", methods=['GET'])
+    def variants():
         search = request.args.get('search')
         grls_search = GRLS_drugs_finder(search)
         search_list = grls_search.find()
         if not len(search_list):
             return index("FOUND NOTHING! But you can search another!")
-        return render_template('result.tpl', message=search,
+        return render_template('variants.tpl', message=search,
                                search_list=search_list)
+
+    @app.route("/result", methods=['POST'])
+    def result():
+        # заглушка окончательного поиска
+        return render_template('result.tpl')
 
     @app.errorhandler(404)
     def page404(_):

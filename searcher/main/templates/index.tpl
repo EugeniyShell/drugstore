@@ -7,7 +7,7 @@
         <h1>{{ message }}</h1>
     {% endif %}
     
-    <form action="/result" method="GET">
+    <form action="/variants" method="GET">
         <fieldset>
             <legend>Введите название лекарства или действующего вещества:</legend>
             <input type="text" name="search">
