@@ -1,12 +1,11 @@
 import os
 import zipfile
-from pathlib import Path
 
 import requests
 import wget
 from lxml import html
 
-from main.defs import GRLS_ADDRESS, USERAGENT, SOURCEPATH
+from main.definitions import GRLS_ADDRESS, USERAGENT, SOURCEPATH
 
 
 def main():
