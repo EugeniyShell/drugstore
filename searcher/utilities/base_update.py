@@ -1,54 +1,74 @@
 import os
-import json
-from pprint import pprint
 
 import pandas
 from sqlalchemy import create_engine, MetaData, Column, String, Integer, Table
 from sqlalchemy.orm import sessionmaker, mapper
 
-from main.data_base import Substantion
 from main.definitions import SOURCEPATH, SQLALCHEMY_DATABASE_URI
 
 
+class TableItem:
+    # создаем класс-модель для наших данных
+    def __init__(self, drugname, commonname):
+        self.id = None
+        self.commonname = commonname
+        self.drugname = drugname
+
+
 def main():
+    # создаем движок БД
+    # метадата - описание движка базы
+    # описываем таблицу, которую будем создавать (имя, мета, колонки)
+    # маппером связываем нашу таблицу и класс-модель
+    # уничтожаем все таблицы в текущей базе
+    # создаем новвые (одну) таблицы
+    # создаем сессию при помощи сессионмейкера из алхимии
+    # запускаем апдейтер базы создавая экземпляр класса session
     engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
     metadata = MetaData()
     grls_table = Table(
         'grls',
         metadata,
         Column('id', Integer, primary_key=True),
-        Column('drugname', String),
         Column('commonname', String),
+        Column('drugname', String)
     )
+    # маппер привязывает каждый экземпляр нашего класса к строке таблицы
+    mapper(TableItem, grls_table)
+    metadata.drop_all(engine)
     metadata.create_all(engine)
-    # mapper(Substantion, grls_table)
-    Session = sessionmaker(bind=engine)
-    base_update_session = Session()
-    drug = Substantion('imodium', 'loperamid')
-    base_update_session.add(drug)
+    session = sessionmaker(bind=engine)
+    base_update_session = session()
+    usepandas(base_update_session)
     base_update_session.commit()
 
 
-def oldmain():
+def usepandas(base_update_session):
     # получаем набор файлов нужного формата по нужному пути
     path = SOURCEPATH.glob('*.xls')
     for file in path:
+        # дергаем из экселя нужные данные через pandas
         excel = pandas.ExcelFile(file)
-        #pprint(excel.sheet_names)
         excel_data_df = pandas.read_excel(excel, sheet_name='Действующий',
-                                          header=6)
-        json_file = json.loads(excel_data_df.to_json(orient='records'))
-        #print('Excel Sheet to JSON:', json.loads(json_file))
-
-        with open(SOURCEPATH / 'json_file.txt', 'w', encoding='UTF-8') as f:
-            f.writelines(str(json_file[:100]))
-        # удаление xls. предварительно закрывает открытый эксель
+                                          header=4)
+        mnn_tn = excel_data_df[['Торговое наименование\nлекарственного '
+                                'препарата',
+                                'Международное непатентованное или химическое '
+                                'наименование']][1:]
+        # апдейтим базу парами значений
+        for _tn, _mnn in mnn_tn.itertuples(index=False):
+            if _mnn == '~':
+                _mnn = _tn
+            base_update(_mnn, _tn, base_update_session)
         excel.close()
+        # удаляем файл
         os.remove(file)
 
 
-def base_update():
-    pass
+def base_update(mnn, tn, base_update_session):
+    # создаем экземпляр модели и закидываем его в сессию
+    item = TableItem(mnn, tn)
+    base_update_session.add(item)
 
 
 if __name__ == "__main__":
