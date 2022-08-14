@@ -2,19 +2,20 @@
 
 {% block content %}
     <h1>"Вы искали "{{ message }}"</h1>
-
+    
     <form action="/result" method="POST">
-        <fieldset>
-            <legend>Выберите вариант</legend>
-
+        <div class="mb-3">
+            <label class="form-label">Выберите вариант:</label>
+            
             {% for item in search_list %}
-                <label>
-                    {{ item }}
-                    <input type="radio" name="search" value="{{ item }}">
-                </label><br>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="{{ item }}" name="search">
+                    
+                    <label class="form-check-label" for="flexCheckDefault">{{ item }}</label>
+                </div>
             {% endfor %}
-        </fieldset>
+        </div>
         
-        <button type="submit">Искать</button>
+        <button type="submit" class="btn btn-primary">Искать</button>
     </form>
 {% endblock %}

@@ -67,7 +67,7 @@ def usepandas(base_update_session):
 
 def base_update(mnn, tn, base_update_session):
     # создаем экземпляр модели и закидываем его в сессию
-    item = TableItem(mnn, tn)
+    item = TableItem(mnn.lower(), tn.lower())
     base_update_session.add(item)
 
 

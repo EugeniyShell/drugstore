@@ -8,11 +8,12 @@
     {% endif %}
     
     <form action="/variants" method="GET">
-        <fieldset>
-            <legend>Введите название лекарства или действующего вещества:</legend>
-            <input type="text" name="search">
-        </fieldset>
+        <div class="mb-3">
+            <label for="searchField" class="form-label">Введите название лекарства или действующего вещества:</label>
+            
+            <input type="text" name="search" class="form-control" id="searchField" placeholder="лоперамид">
+        </div>
         
-        <button type="submit">Искать</button>
+        <button type="submit" class="btn btn-primary">Искать</button>
     </form>
 {% endblock %}

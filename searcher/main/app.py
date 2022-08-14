@@ -1,6 +1,6 @@
 ﻿from flask import Flask, render_template, request
 
-from main.data_base import db
+from main.data_base import db, base_search
 from main.definitions import SQLALCHEMY_DATABASE_URI, \
     SQLALCHEMY_TRACK_MODIFICATIONS
 # from main.grls_drugs_finder import GRLS_drugs_finder
@@ -21,7 +21,8 @@ def create_app() -> Flask:
     def variants():
         search = request.args.get('search')
         # заглушка поиска в базе
-        search_list = []
+        # search_list = []
+        search_list = base_search(search.lower())
         if not len(search_list):
             return index("FOUND NOTHING! But you can search another!")
         return render_template('variants.tpl', message=search,
