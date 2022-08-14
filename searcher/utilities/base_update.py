@@ -9,9 +9,10 @@ from main.definitions import SOURCEPATH, SQLALCHEMY_DATABASE_URI
 
 class TableItem:
     # создаем класс-модель для наших данных
-    def __init__(self, drugname, commonname):
+    def __init__(self, commonname, drugname):
         self.id = None
-        self.commonname = commonname
+        self.commonname_normalized = commonname.lower()
+        self.drugname_normalized = drugname.lower()
         self.drugname = drugname
 
 
@@ -30,7 +31,8 @@ def main():
         'grls',
         metadata,
         Column('id', Integer, primary_key=True),
-        Column('commonname', String),
+        Column('commonname_normalized', String),
+        Column('drugname_normalized', String),
         Column('drugname', String)
     )
     # маппер привязывает каждый экземпляр нашего класса к строке таблицы
@@ -67,7 +69,7 @@ def usepandas(base_update_session):
 
 def base_update(mnn, tn, base_update_session):
     # создаем экземпляр модели и закидываем его в сессию
-    item = TableItem(mnn.lower(), tn.lower())
+    item = TableItem(mnn, tn)
     base_update_session.add(item)
 
 
