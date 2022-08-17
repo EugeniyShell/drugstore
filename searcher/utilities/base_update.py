@@ -12,6 +12,7 @@ class TableItem:
     def __init__(self, commonname, drugname):
         self.id = None
         self.commonname_normalized = commonname.lower()
+        self.commonname = commonname
         self.drugname_normalized = drugname.lower()
         self.drugname = drugname
 
@@ -32,6 +33,7 @@ def main():
         metadata,
         Column('id', Integer, primary_key=True),
         Column('commonname_normalized', String),
+        Column('commonname', String),
         Column('drugname_normalized', String),
         Column('drugname', String)
     )
