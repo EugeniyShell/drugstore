@@ -1,10 +1,10 @@
 ﻿from flask import Flask, render_template, request
 
 # from main.grls_drugs_finder import GRLS_drugs_finder
+from main.drugstore_crawler import crawl_it
 from main.definitions import SQLALCHEMY_DATABASE_URI, \
     SQLALCHEMY_TRACK_MODIFICATIONS
 from main.data_base import db, base_search
-from main.drug_finder import drug_search
 
 
 def create_app() -> Flask:
@@ -33,9 +33,9 @@ def create_app() -> Flask:
     def result():
         search_list = request.form.getlist('search')
         # заглушка окончательного поиска
-        # result_list = []
-        result_list = drug_search(search_list)
-        print(result_list)
+        result_list = []
+        for item in search_list:
+            result_list += crawl_it(item)
         return render_template('result.tpl', search_list=search_list,
                                result_list=result_list)
 
