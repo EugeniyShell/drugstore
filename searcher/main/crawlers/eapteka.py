@@ -6,17 +6,20 @@ def main(driver, search):
     res = driver.find_elements(By.CSS_SELECTOR, 'section.cc-item')
     res_list = []
     for elem in res:
-        unit = {
-            'name': elem.get_attribute(
-                "data-amplitude-item-serp-name"
-            ),
-            'prices': elem.get_attribute(
-                "data-amplitude-item-serp-price"
-            ),
-            'link': elem.find_element(
-                By.CSS_SELECTOR,
-                '.cc-item--title'
-            ).get_attribute('href'),
-        }
-        res_list.append(unit)
+        try:
+            unit = {
+                'name': elem.get_attribute(
+                    "data-amplitude-item-serp-name"
+                ),
+                'prices': elem.get_attribute(
+                    "data-amplitude-item-serp-price"
+                ),
+                'link': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.cc-item--title'
+                ).get_attribute('href'),
+            }
+            res_list.append(unit)
+        except Exception:
+            print(Exception)
     return res_list

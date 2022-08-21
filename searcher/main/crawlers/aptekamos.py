@@ -6,19 +6,22 @@ def main(driver, search):
     res = driver.find_elements(By.CSS_SELECTOR, '.product.flex-df')
     res_list = []
     for elem in res:
-        unit = {
-            'name': elem.find_element(
-                By.CSS_SELECTOR,
-                '.product-name'
-            ).text,
-            'prices': elem.find_element(
-                By.CSS_SELECTOR,
-                '.product-price'
-            ).text,
-            'link': elem.find_element(
-                By.CSS_SELECTOR,
-                '.product-price'
-            ).get_attribute('data-go-to-link'),
-        }
-        res_list.append(unit)
+        try:
+            unit = {
+                'name': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.product-name'
+                ).text,
+                'prices': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.product-price'
+                ).text,
+                'link': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.product-price'
+                ).get_attribute('data-go-to-link'),
+            }
+            res_list.append(unit)
+        except Exception:
+            print(Exception)
     return res_list

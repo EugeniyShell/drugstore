@@ -6,19 +6,22 @@ def main(driver, search):
     res = driver.find_elements(By.CSS_SELECTOR, '.app-grid-card-item')
     res_list = []
     for elem in res:
-        unit = {
-            'name': elem.find_element(
-                By.CSS_SELECTOR,
-                '.header a'
-            ).get_attribute('title'),
-            'prices': elem.find_element(
-                By.CSS_SELECTOR,
-                '.desktop .price'
-            ).text,
-            'link': elem.find_element(
-                By.CSS_SELECTOR,
-                '.header a'
-            ).get_attribute('href'),
-        }
-        res_list.append(unit)
+        try:
+            unit = {
+                'name': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.header a'
+                ).get_attribute('title'),
+                'prices': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.desktop .price'
+                ).text,
+                'link': elem.find_element(
+                    By.CSS_SELECTOR,
+                    '.header a'
+                ).get_attribute('href'),
+            }
+            res_list.append(unit)
+        except Exception:
+            print(Exception)
     return res_list
