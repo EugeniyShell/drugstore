@@ -32,9 +32,7 @@ def create_app() -> Flask:
     @app.route("/result", methods=['POST'])
     def result():
         search_list = request.form.getlist('search')
-        result_list = []
-        for item in search_list:
-            result_list += crawl_it(item)
+        result_list = crawl_it(search_list)
         return render_template('result.tpl', search_list=search_list,
                                result_list=result_list)
 

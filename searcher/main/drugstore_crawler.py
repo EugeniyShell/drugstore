@@ -7,13 +7,15 @@ from main.decorators import result_cleaner
 from main.definitions import CHROMEDRIVER
 
 
-def crawl_it(search):
+def crawl_it(search_list):
     result = []
-    # здесь вызываем селениумный парсинг тех, кто парсится им
-    result += selenium_crawl(search)
-    # здесь вызываем парсинг тех, кто не пускает селениум
-    result += lxml_crawl(search)
-    # здесь будет обработка результатов
+    for item in search_list:
+        # здесь вызываем селениумный парсинг тех, кто парсится им
+        result += selenium_crawl(item)
+        # здесь вызываем парсинг тех, кто не пускает селениум
+        result += lxml_crawl(item)
+    # здесь будет обработка результатов - сортировка и устранение дубликатов
+    result.sort(key=lambda x: int(x['price'].split(' ')[0]))
     return result
 
 
