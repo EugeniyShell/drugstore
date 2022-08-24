@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    {% if message == "search"%}
-        <h1>Welcome and {{ message }}</h1>
-    {% else %}
-        <h1>{{ message }}</h1>
-    {% endif %}
+    <h1>{{ message }}</h1>
     
     <form action="/variants" method="GET">
         <div class="mb-3">

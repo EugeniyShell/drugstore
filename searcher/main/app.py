@@ -15,17 +15,18 @@ def create_app() -> Flask:
 
     @app.route("/")
     @app.route("/index")
-    def index(message="search"):
+    def index(message="Начните поиск"):
         return render_template('index.tpl', message=message)
 
     @app.route("/variants", methods=['GET'])
     def variants():
         search = request.args.get('search')
-        # заглушка поиска в базе
-        # search_list = []
+        if not search:
+            return index('Вы ничего не ввели, будьте внимательнее')
         search_list = base_search(search)
         if not len(search_list):
-            return index("FOUND NOTHING! But you can search another!")
+            return index(f'Не удалось найти "{search}", '
+                         f'попробуйте другое ключевое слово')
         return render_template('variants.tpl', message=search,
                                search_list=search_list)
 
@@ -38,8 +39,7 @@ def create_app() -> Flask:
 
     @app.errorhandler(404)
     def page404(_):
-        return index("Previous page not found - 404. "
-                     "But you can search another!")
+        return index('Произошла чудовищная ошибка, попробуйте поискать снова')
 
     db.init_app(app)
     return app

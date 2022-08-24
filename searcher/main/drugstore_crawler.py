@@ -15,6 +15,10 @@ def crawl_it(search_list):
         # здесь вызываем парсинг тех, кто не пускает селениум
         result += lxml_crawl(item)
     # здесь будет обработка результатов - сортировка и устранение дубликатов
+    temp_dict = {}
+    for item in result:
+        temp_dict[item['link']] = item
+    result = list(temp_dict.values())
     result.sort(key=lambda x: int(x['price'].split(' ')[0]))
     return result
 

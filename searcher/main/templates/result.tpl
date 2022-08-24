@@ -7,19 +7,27 @@
         {% endfor %}.
     </h1>
 
-    <ul class="list-group">
+    <div class="list-group list-group-flush">
         {% if result_list|length %}
-            <li class="list-group-item">
-                <h2>Нам удалось найти:</h2>
-            </li>
+            <h2 class="list-group-item">
+                Нам удалось найти:
+            </h2>
 
             {% for item in result_list %}
-                <li class="list-group-item">{{ item }}</li>
+                <a class="list-group-item flex" href="{{ item.link }}" target="_blank">
+                    <span>
+                        {{ item.name }}
+                    </span>
+
+                    <span class="badge bg-primary rounded-pill">
+                        {{ item.price }}
+                    </span>
+                </a>
             {% endfor %}
         {% else %}
-            <li class="list-group-item">
-                <h2>Нам ничего не удалось найти.</h2>
-            </li>
+            <h2 class="list-group-item">
+                Нам ничего не удалось найти.
+            </h2>
         {% endif %}
-    </ul>
+    </div>
 {% endblock %}

@@ -26,3 +26,14 @@ footer > p {
 main > div {
     padding: 50px;
 }
+a.flex {
+    display: flex;
+    gap: 24px;
+}
+.flex > span {
+    flex: auto;
+}
+.flex .badge {
+    flex: none;
+    height: 24px;
+}
