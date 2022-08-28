@@ -12,7 +12,7 @@ HEADERS = {
 }
 
 
-def main(search):
+def another(search):
     resp = requests.get(f'https://planetazdorovo.ru/search/?q={search}',
                         headers=HEADERS)
     root = html.fromstring(resp.text)
@@ -33,7 +33,3 @@ def main(search):
         except Exception:
             print(Exception)
     return res_list
-
-
-# if __name__ == '__main__':
-#     print(main('Лираглутид'))

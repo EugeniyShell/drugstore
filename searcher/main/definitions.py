@@ -6,4 +6,4 @@ GRLS_ADDRESS = 'https://grls.rosminzdrav.ru/'
 SOURCEPATH = Path("./../sources")
 SQLALCHEMY_DATABASE_URI = 'sqlite:///../sources/grls.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-CHROMEDRIVER = Path("D:\projects\drugstore\searcher\chromedriver.exe")
+CHROMEDRIVER = Path.cwd() / 'chromedriver.exe'
