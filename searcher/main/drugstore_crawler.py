@@ -28,20 +28,33 @@ def crawl_it(search_list):
 @result_cleaner
 def use_crawl(search):
     options = Options()
-    options.add_argument('start-maximized')
-    options.add_argument('disable-notifications')
+    # options.add_argument('start-maximized')
+    options.add_argument('--headless')
+    # options.add_argument('--disable-notifications')
+    # options.add_argument('--disable-extensions')
+    # options.add_argument('--disable-gpu')
     driver = webdriver.Chrome(executable_path=CHROMEDRIVER, options=options)
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(5)
     result = []
     path = Path.cwd() / 'main' / 'crawlers'
-    crwl = os.listdir(path=path)[:-2]
+    crwl = sorted(os.listdir(path=path))[2:]
     for item in crwl:
         func = importlib.import_module(f'.{item[:-3]}',
                                        package='main.crawlers')
         try:
-            result += func.main(driver, search)
+            res = func.main(driver, search)
+            if len(res):
+                print(f'{func.__name__} --> OK!')
+                result += res
+            else:
+                print(f'{func.__name__} --> ERROR!')
         except Exception:
-            result += func.another(search)
+            res = func.another(search)
+            if len(res):
+                print(f'{func.__name__} --> OK!')
+                result += res
+            else:
+                print(f'{func.__name__} --> ERROR!')
     # result += aptekamos.main(driver, search)
     # result += gorzdrav.main(driver, search)
     # result += rigla.main(driver, search)
