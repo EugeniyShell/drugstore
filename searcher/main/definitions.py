@@ -7,3 +7,7 @@ SOURCEPATH = Path("./../sources")
 SQLALCHEMY_DATABASE_URI = 'sqlite:///../sources/grls.db'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 CHROMEDRIVER = Path.cwd() / 'chromedriver.exe'
+LOGGING_LEVEL = 'DEBUG'
+LOGPATH = Path.cwd() / 'logs' / 'log.log'
+LOG_STRING_FORMAT = '[%(levelname)s] [%(asctime)s] [%(filename)s] --> %(message)s'
+LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'

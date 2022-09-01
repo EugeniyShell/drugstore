@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 import pandas
 from sqlalchemy import create_engine, MetaData, Column, String, Integer, Table
@@ -18,6 +19,9 @@ class TableItem:
 
 
 def main():
+    LOGPATH = Path.cwd() / '..' / 'logs' / 'log.log'
+    print(LOGPATH)
+    LOGGER = get_logger(LOGGING_LEVEL, LOGPATH)
     # создаем движок БД
     # метадата - описание движка базы
     # описываем таблицу, которую будем создавать (имя, мета, колонки)
@@ -27,6 +31,7 @@ def main():
     # создаем сессию при помощи сессионмейкера из алхимии
     # запускаем апдейтер базы создавая экземпляр класса session
     engine = create_engine(SQLALCHEMY_DATABASE_URI, echo=True)
+    LOGGER.info('Создан движок базы. Это база!')
     metadata = MetaData()
     grls_table = Table(
         'grls',
