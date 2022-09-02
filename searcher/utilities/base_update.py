@@ -5,7 +5,8 @@ import pandas
 from sqlalchemy import create_engine, MetaData, Column, String, Integer, Table
 from sqlalchemy.orm import sessionmaker, mapper
 
-from main.definitions import SOURCEPATH, SQLALCHEMY_DATABASE_URI
+from logs.logger import get_logger
+from main.definitions import SOURCEPATH, SQLALCHEMY_DATABASE_URI, LOGGING_LEVEL
 
 
 class TableItem:
@@ -19,10 +20,6 @@ class TableItem:
 
 
 def main():
-    # запускаем логгер с отдельным пасом, добавить в логгер 2 аргумент path=PATH
-    LOGPATH = Path.cwd() / '..' / 'logs' / 'log.log'
-    print(LOGPATH)
-    LOGGER = get_logger(LOGGING_LEVEL, LOGPATH)
     # создаем движок БД
     # метадата - описание движка базы
     # описываем таблицу, которую будем создавать (имя, мета, колонки)
@@ -78,8 +75,12 @@ def usepandas(base_update_session):
 def base_update(mnn, tn, base_update_session):
     # создаем экземпляр модели и закидываем его в сессию
     item = TableItem(mnn, tn)
+    LOGGER.info('HERE LOG!!!')
     base_update_session.add(item)
 
 
 if __name__ == "__main__":
+    # запускаем логгер с отдельным пасом
+    LOGPATH = Path.cwd() / '..' / 'logs' / 'baselog.log'
+    LOGGER = get_logger(LOGGING_LEVEL, LOGPATH)
     main()
