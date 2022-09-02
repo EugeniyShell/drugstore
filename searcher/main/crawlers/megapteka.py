@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
+from main.decorators import result_logger
 
 
+@result_logger
 def main(driver, search):
     driver.get(f'https://megapteka.ru/search?q={search}')
     res = driver.find_elements(By.CSS_SELECTOR, '.app-grid-card-item')
@@ -12,7 +14,7 @@ def main(driver, search):
                     By.CSS_SELECTOR,
                     '.header a'
                 ).get_attribute('title'),
-                'prices': elem.find_element(
+                'price': elem.find_element(
                     By.CSS_SELECTOR,
                     '.desktop .price'
                 ).text,

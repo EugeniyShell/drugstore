@@ -19,6 +19,7 @@ class TableItem:
 
 
 def main():
+    # запускаем логгер с отдельным пасом, добавить в логгер 2 аргумент path=PATH
     LOGPATH = Path.cwd() / '..' / 'logs' / 'log.log'
     print(LOGPATH)
     LOGGER = get_logger(LOGGING_LEVEL, LOGPATH)

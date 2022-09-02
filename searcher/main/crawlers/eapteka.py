@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
+from main.decorators import result_logger
 
 
+@result_logger
 def main(driver, search):
     driver.get(f'https://www.eapteka.ru/search/?q={search}')
     res = driver.find_elements(By.CSS_SELECTOR, 'section.cc-item')
@@ -11,7 +13,7 @@ def main(driver, search):
                 'name': elem.get_attribute(
                     "data-amplitude-item-serp-name"
                 ),
-                'prices': elem.get_attribute(
+                'price': elem.get_attribute(
                     "data-amplitude-item-serp-price"
                 ),
                 'link': elem.find_element(

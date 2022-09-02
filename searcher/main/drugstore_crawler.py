@@ -8,7 +8,7 @@ from selenium.webdriver.chrome.options import Options
 # никаких импортов из main.crawlers! этим занимается importlib внутри функции
 # from main.crawlers import aptekamos, asna, planetazdorovo, gorzdrav, rigla, \
 #     apteka, eapteka, vseapteki, apteka366, megapteka
-from main.decorators import result_cleaner
+from main.decorators import result_cleaner, result_logger
 from main.definitions import CHROMEDRIVER
 
 
@@ -26,7 +26,9 @@ def crawl_it(search_list):
 
 
 @result_cleaner
+@result_logger
 def use_crawl(search):
+    from wsgi import app
     options = Options()
     # options.add_argument('start-maximized')
     options.add_argument('--headless')
@@ -44,17 +46,18 @@ def use_crawl(search):
         try:
             res = func.main(driver, search)
             if len(res):
-                print(f'{func.__name__} --> OK!')
+                app.logger.debug(f'{func.__name__} --> OK!')
                 result += res
             else:
-                print(f'{func.__name__} --> ERROR!')
+                app.logger.warning(f'{func.__name__} --> no result!')
         except Exception:
-            res = func.another(search)
-            if len(res):
-                print(f'{func.__name__} --> OK!')
-                result += res
-            else:
-                print(f'{func.__name__} --> ERROR!')
+            app.logger.critical(f'{func.__name__} --> AVARIA!')
+            # res = func.another(search)
+            # if len(res):
+            #     print(f'{func.__name__} --> OK!')
+            #     result += res
+            # else:
+            #     print(f'{func.__name__} --> ERROR!')
     # result += aptekamos.main(driver, search)
     # result += gorzdrav.main(driver, search)
     # result += rigla.main(driver, search)

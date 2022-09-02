@@ -2,6 +2,8 @@ import requests
 from lxml import html
 
 from main.definitions import USERAGENT
+from main.decorators import result_logger
+
 
 HEADERS = {
     'User-agent': USERAGENT,
@@ -11,7 +13,7 @@ HEADERS = {
               'hcpq3pg9n54k2s;'
 }
 
-
+@result_logger
 def another(search):
     resp = requests.get(f'https://planetazdorovo.ru/search/?q={search}',
                         headers=HEADERS)
@@ -24,7 +26,7 @@ def another(search):
                 'name': elem.xpath(
                     './/div[@class="product-card__title"]//span/text()'
                 )[0],
-                'prices': elem.xpath('.//div[@itemprop="price"]/text()')[0],
+                'price': elem.xpath('.//div[@itemprop="price"]/text()')[0],
                 'link': 'https://planetazdorovo.ru' + elem.xpath(
                     './/div[@class="product-card__title"]/a/@href'
                 )[0],

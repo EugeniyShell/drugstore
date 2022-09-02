@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
+from main.decorators import result_logger
 
 
+@result_logger
 def main(driver, search):
     driver.get(f'https://aptekamos.ru/tovary/poisk?q={search}&&inr=0')
     res = driver.find_elements(By.CSS_SELECTOR, '.product.flex-df')
@@ -12,7 +14,7 @@ def main(driver, search):
                     By.CSS_SELECTOR,
                     '.product-name'
                 ).text,
-                'prices': elem.find_element(
+                'price': elem.find_element(
                     By.CSS_SELECTOR,
                     '.product-price'
                 ).text,

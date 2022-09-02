@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
+from main.decorators import result_logger
 
 
+@result_logger
 def main(driver, search):
     driver.get(f'https://apteka.ru/search/?q={search}')
     res = driver.find_elements(By.CSS_SELECTOR, '.catalog-card.card-flex')
@@ -19,7 +21,7 @@ def main(driver, search):
                         By.CSS_SELECTOR, '.card-param'
                     )]
                 ),
-                'prices': elem.find_element(
+                'price': elem.find_element(
                     By.CSS_SELECTOR,
                     '.moneyprice__roubles'
                 ).text,

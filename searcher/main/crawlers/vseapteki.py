@@ -1,6 +1,8 @@
 from selenium.webdriver.common.by import By
+from main.decorators import result_logger
 
 
+@result_logger
 def main(driver, search):
     driver.get(f'https://vseapteki.ru/search/?query={search}')
     res = driver.find_elements(By.CSS_SELECTOR, '.aGlg97eTgG')
@@ -12,7 +14,7 @@ def main(driver, search):
                     By.CSS_SELECTOR,
                     '.Wm58DKcoJf'
                 ).text,
-                'prices': elem.find_element(
+                'price': elem.find_element(
                     By.CSS_SELECTOR,
                     '._2wvA2Xrvtz'
                 ).text,

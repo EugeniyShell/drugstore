@@ -5,6 +5,7 @@ from pathlib import Path
 from main.definitions import LOG_STRING_FORMAT, LOG_DATE_FORMAT, \
     LOGGING_LEVEL, LOGPATH
 
+
 # допилить вторым аргументом путь
 def get_logger(level, LOGPATH=LOGPATH):
     # прикручиваем это к нашему handlery
@@ -31,7 +32,7 @@ def get_logger(level, LOGPATH=LOGPATH):
 # отладка
 if __name__ == '__main__':
     LOGPATH = Path.cwd() / 'testlog.log'
-    LOGGER = get_logger(LOGGING_LEVEL)
+    LOGGER = get_logger(LOGGING_LEVEL, LOGPATH)
     LOGGER.warning('Предупреждение')
     LOGGER.critical('Критическая ошибка')
     LOGGER.error('Ошибка')
