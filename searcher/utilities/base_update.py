@@ -56,17 +56,20 @@ def usepandas(base_update_session):
     for file in path:
         # дергаем из экселя нужные данные через pandas
         excel = pandas.ExcelFile(file)
-        excel_data_df = pandas.read_excel(excel, sheet_name='Действующий',
-                                          header=4)
-        mnn_tn = excel_data_df[['Торговое наименование\nлекарственного '
-                                'препарата',
-                                'Международное непатентованное или химическое '
-                                'наименование']][1:]
-        # апдейтим базу парами значений
-        for _tn, _mnn in mnn_tn.itertuples(index=False):
-            if _mnn == '~':
-                _mnn = _tn
-            base_update(_mnn, _tn, base_update_session)
+        try:
+            excel_data_df = pandas.read_excel(excel, sheet_name='Действующий',
+                                              header=4)
+            mnn_tn = excel_data_df[['Торговое наименование\nлекарственного '
+                                    'препарата',
+                                    'Международное непатентованное или химическое '
+                                    'наименование']][1:]
+            # апдейтим базу парами значений
+            for _tn, _mnn in mnn_tn.itertuples(index=False):
+                if _mnn == '~':
+                    _mnn = _tn
+                base_update(_mnn, _tn, base_update_session)
+        except Exception as err:
+            LOGGER.error(err)
         excel.close()
         # удаляем файл
         os.remove(file)
@@ -75,7 +78,7 @@ def usepandas(base_update_session):
 def base_update(mnn, tn, base_update_session):
     # создаем экземпляр модели и закидываем его в сессию
     item = TableItem(mnn, tn)
-    LOGGER.info('HERE LOG!!!')
+    # LOGGER.info('HERE LOG!!!')
     base_update_session.add(item)
 
 
