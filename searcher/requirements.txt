@@ -4,6 +4,6 @@ Flask-SQLAlchemy==2.5.1
 lxml==4.9.1
 pandas==1.4.4
 requests==2.28.1
-selenium==4.4.3
+selenium==4.9.1
 wget==3.2
 xlrd==2.0.1
